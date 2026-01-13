@@ -1,5 +1,6 @@
 use anyhow::Error;
-// use executors::{executors::BaseCodingAgent, profile::ExecutorProfileId};
+// Use stub types for compilation
+use crate::executor_stubs::{BaseCodingAgent, ExecutorProfileId};
 use serde::{Deserialize, Serialize};
 use strum_macros::EnumString;
 use ts_rs::TS;
@@ -132,7 +133,7 @@ impl Default for Config {
         Self {
             config_version: "v7".to_string(),
             theme: ThemeMode::System,
-            executor_profile: ExecutorProfileId::new(BaseCodingAgent::ClaudeCode),
+            executor_profile: ExecutorProfileId::from(BaseCodingAgent::ClaudeCode),
             disclaimer_acknowledged: false,
             onboarding_acknowledged: false,
             github_login_acknowledged: false,

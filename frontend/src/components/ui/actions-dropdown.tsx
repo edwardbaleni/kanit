@@ -13,10 +13,8 @@ import type { TaskWithAttemptStatus } from 'shared/types';
 import type { Workspace } from 'shared/types';
 import { useOpenInEditor } from '@/hooks/useOpenInEditor';
 import { DeleteTaskConfirmationDialog } from '@/components/dialogs/tasks/DeleteTaskConfirmationDialog';
-import { ViewProcessesDialog } from '@/components/dialogs/tasks/ViewProcessesDialog';
+// REMOVED: Execution disabled - ViewProcessesDialog, CreateAttemptDialog, GitActionsDialog removed
 import { ViewRelatedTasksDialog } from '@/components/dialogs/tasks/ViewRelatedTasksDialog';
-import { CreateAttemptDialog } from '@/components/dialogs/tasks/CreateAttemptDialog';
-import { GitActionsDialog } from '@/components/dialogs/tasks/GitActionsDialog';
 import { EditBranchNameDialog } from '@/components/dialogs/tasks/EditBranchNameDialog';
 import { ShareDialog } from '@/components/dialogs/tasks/ShareDialog';
 import { ReassignDialog } from '@/components/dialogs/tasks/ReassignDialog';
@@ -81,11 +79,7 @@ export function ActionsDropdown({
     openInEditor();
   };
 
-  const handleViewProcesses = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!attempt?.id) return;
-    ViewProcessesDialog.show({ attemptId: attempt.id });
-  };
+  // REMOVED: Execution disabled - handleViewProcesses removed
 
   const handleViewRelatedTasks = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -102,13 +96,7 @@ export function ActionsDropdown({
     });
   };
 
-  const handleCreateNewAttempt = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!task?.id) return;
-    CreateAttemptDialog.show({
-      taskId: task.id,
-    });
-  };
+  // REMOVED: Execution disabled - handleCreateNewAttempt removed
 
   const handleCreateSubtask = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -123,14 +111,7 @@ export function ActionsDropdown({
     });
   };
 
-  const handleGitActions = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!attempt?.id || !task) return;
-    GitActionsDialog.show({
-      attemptId: attempt.id,
-      task,
-    });
-  };
+  // REMOVED: Execution disabled - handleGitActions removed
 
   const handleEditBranchName = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -189,33 +170,21 @@ export function ActionsDropdown({
               >
                 {t('actionsMenu.openInIde')}
               </DropdownMenuItem>
-              <DropdownMenuItem
-                disabled={!attempt?.id}
-                onClick={handleViewProcesses}
-              >
-                {t('actionsMenu.viewProcesses')}
-              </DropdownMenuItem>
+              {/* REMOVED: Execution disabled - View Processes menu item removed */}
               <DropdownMenuItem
                 disabled={!attempt?.id}
                 onClick={handleViewRelatedTasks}
               >
                 {t('actionsMenu.viewRelatedTasks')}
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleCreateNewAttempt}>
-                {t('actionsMenu.createNewAttempt')}
-              </DropdownMenuItem>
+              {/* REMOVED: Execution disabled - Create New Attempt menu item removed */}
               <DropdownMenuItem
                 disabled={!projectId || !attempt}
                 onClick={handleCreateSubtask}
               >
                 {t('actionsMenu.createSubtask')}
               </DropdownMenuItem>
-              <DropdownMenuItem
-                disabled={!attempt?.id || !task}
-                onClick={handleGitActions}
-              >
-                {t('actionsMenu.gitActions')}
-              </DropdownMenuItem>
+              {/* REMOVED: Execution disabled - Git Actions menu item removed */}
               <DropdownMenuItem
                 disabled={!attempt?.id}
                 onClick={handleEditBranchName}

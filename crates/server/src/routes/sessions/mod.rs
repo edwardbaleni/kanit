@@ -15,12 +15,13 @@ use db::models::{
     workspace::{Workspace, WorkspaceError},
 };
 use deployment::Deployment;
+// REMOVED: Execution disabled - executor types removed
 // use executors::{
-    actions::{
-        ExecutorAction, ExecutorActionType, coding_agent_follow_up::CodingAgentFollowUpRequest,
-    },
-    profile::ExecutorProfileId,
-};
+//     actions::{
+//         ExecutorAction, ExecutorActionType, coding_agent_follow_up::CodingAgentFollowUpRequest,
+//     },
+//     profile::ExecutorProfileId,
+// };
 use serde::Deserialize;
 use services::services::container::ContainerService;
 use sqlx::Error as SqlxError;
@@ -59,6 +60,7 @@ pub async fn get_session(
     Ok(ResponseJson(ApiResponse::success(session)))
 }
 
+// STUB: Execution disabled - creates stub session without executor functionality
 pub async fn create_session(
     State(deployment): State<DeploymentImpl>,
     Json(payload): Json<CreateSessionRequest>,

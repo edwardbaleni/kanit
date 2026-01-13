@@ -1,6 +1,7 @@
-pub mod codex_setup;
-pub mod cursor_setup;
-pub mod gh_cli_setup;
+// REMOVED: Execution disabled - executor setup modules removed
+// pub mod codex_setup;
+// pub mod cursor_setup;
+// pub mod gh_cli_setup;
 pub mod images;
 pub mod pr;
 pub mod util;
@@ -32,14 +33,8 @@ use db::models::{
     workspace_repo::{CreateWorkspaceRepo, RepoWithTargetBranch, WorkspaceRepo},
 };
 use deployment::Deployment;
-// use executors::{
-    actions::{
-        ExecutorAction, ExecutorActionType,
-        script::{ScriptContext, ScriptRequest, ScriptRequestLanguage},
-    },
-    executors::{CodingAgent, ExecutorError},
-    profile::{ExecutorConfigs, ExecutorProfileId},
-};
+// REMOVED: Execution disabled - using stub types for API compatibility
+use services::executor_stubs::ExecutorProfileId;
 use git2::BranchType;
 use serde::{Deserialize, Serialize};
 use services::services::{
@@ -115,9 +110,9 @@ pub struct WorkspaceRepoInput {
     pub target_branch: String,
 }
 
-#[derive(Debug, Deserialize, Serialize, TS)]
-
-#[derive(Debug, Serialize, TS)]
+// REMOVED: Execution disabled - empty derive attributes from removed types
+// #[derive(Debug, Deserialize, Serialize, TS)]
+// #[derive(Debug, Serialize, TS)]
 
 #[axum::debug_handler]
 pub async fn create_task_attempt(

@@ -10,7 +10,8 @@ use std::{
 };
 
 use db::{DBService, models::workspace_repo::WorkspaceRepo};
-// use executors::logs::utils::{ConversationPatch, patch::escape_json_pointer_segment};
+// Use stub types for compilation
+use crate::executor_stubs::patch::{ConversationPatch, escape_json_pointer_segment};
 use futures::StreamExt;
 use notify::{RecommendedWatcher, RecursiveMode};
 use notify_debouncer_full::{
@@ -275,8 +276,9 @@ impl DiffStreamManager {
                 diff.new_path = Some(prefix_path(new, self.args.path_prefix.as_deref()));
             }
 
+            let diff_value = serde_json::to_value(&diff).unwrap_or(serde_json::Value::Null);
             let patch =
-                ConversationPatch::add_diff(escape_json_pointer_segment(&prefixed_entry), diff);
+                ConversationPatch::add_diff(escape_json_pointer_segment(&prefixed_entry), diff_value);
             if self.tx.send(Ok(LogMsg::JsonPatch(patch))).await.is_err() {
                 return Ok(());
             }
@@ -497,8 +499,9 @@ fn process_file_changes(
             diff.new_path = Some(prefix_path(new, path_prefix));
         }
 
+        let diff_value = serde_json::to_value(&diff).unwrap_or(serde_json::Value::Null);
         let patch =
-            ConversationPatch::add_diff(escape_json_pointer_segment(&prefixed_entry_index), diff);
+            ConversationPatch::add_diff(escape_json_pointer_segment(&prefixed_entry_index), diff_value);
         msgs.push(LogMsg::JsonPatch(patch));
     }
 
