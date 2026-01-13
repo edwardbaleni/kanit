@@ -5,12 +5,11 @@ import { paths } from '@/lib/paths';
 import { taskRelationshipsKeys } from '@/hooks/useTaskRelationships';
 import type {
   CreateTask,
-  CreateAndStartTaskRequest,
   Task,
-  TaskWithAttemptStatus,
   UpdateTask,
   SharedTaskDetails,
 } from 'shared/types';
+// REMOVED: Execution disabled - CreateAndStartTaskRequest and TaskWithAttemptStatus removed
 import { taskKeys } from './useTask';
 
 export function useTaskMutations(projectId?: string) {
@@ -45,27 +44,7 @@ export function useTaskMutations(projectId?: string) {
     },
   });
 
-  const createAndStart = useMutation({
-    mutationFn: (data: CreateAndStartTaskRequest) =>
-      tasksApi.createAndStart(data),
-    onSuccess: (createdTask: TaskWithAttemptStatus) => {
-      invalidateQueries();
-      // Invalidate parent's relationships cache if this is a subtask
-      if (createdTask.parent_workspace_id) {
-        queryClient.invalidateQueries({
-          queryKey: taskRelationshipsKeys.byAttempt(
-            createdTask.parent_workspace_id
-          ),
-        });
-      }
-      if (projectId) {
-        navigate(`${paths.task(projectId, createdTask.id)}/attempts/latest`);
-      }
-    },
-    onError: (err) => {
-      console.error('Failed to create and start task:', err);
-    },
-  });
+  // REMOVED: Execution disabled - createAndStart mutation removed
 
   const updateTask = useMutation({
     mutationFn: ({ taskId, data }: { taskId: string; data: UpdateTask }) =>
@@ -124,7 +103,7 @@ export function useTaskMutations(projectId?: string) {
 
   return {
     createTask,
-    createAndStart,
+    // REMOVED: Execution disabled - createAndStart removed
     updateTask,
     deleteTask,
     shareTask,
