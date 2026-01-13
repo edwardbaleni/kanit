@@ -7,9 +7,7 @@ import { paths } from '@/lib/paths';
 import type { TaskWithAttemptStatus } from 'shared/types';
 import type { WorkspaceWithSession } from '@/types/attempt';
 import { NewCardContent } from '../ui/new-card';
-import { Button } from '../ui/button';
-import { PlusIcon } from 'lucide-react';
-// REMOVED: Execution disabled - CreateAttemptDialog removed
+// REMOVED: Unused imports after removing Create Attempt button
 import WYSIWYGEditor from '@/components/ui/wysiwyg';
 import { DataTable, type ColumnDef } from '@/components/ui/table';
 
