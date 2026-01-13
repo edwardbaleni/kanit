@@ -9,7 +9,7 @@ import type { WorkspaceWithSession } from '@/types/attempt';
 import { NewCardContent } from '../ui/new-card';
 import { Button } from '../ui/button';
 import { PlusIcon } from 'lucide-react';
-import { CreateAttemptDialog } from '@/components/dialogs/tasks/CreateAttemptDialog';
+// REMOVED: Execution disabled - CreateAttemptDialog removed
 import WYSIWYGEditor from '@/components/ui/wysiwyg';
 import { DataTable, type ColumnDef } from '@/components/ui/table';
 
@@ -152,18 +152,7 @@ const TaskPanel = ({ task }: TaskPanelProps) => {
                         count: displayedAttempts.length,
                       })}
                     </span>
-                    <span>
-                      <Button
-                        variant="icon"
-                        onClick={() =>
-                          CreateAttemptDialog.show({
-                            taskId: task.id,
-                          })
-                        }
-                      >
-                        <PlusIcon size={16} />
-                      </Button>
-                    </span>
+                    {/* REMOVED: Execution disabled - Create Attempt button removed */}
                   </div>
                 }
               />
