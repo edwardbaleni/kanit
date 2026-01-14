@@ -1,4 +1,14 @@
-import type { NormalizedEntry, ExecutorAction } from 'shared/types';
+// REMOVED: Execution disabled - stub types for removed execution types
+type NormalizedEntry = {
+  entry_type: { type: string; [key: string]: any };
+  content: string;
+  timestamp: string | null;
+};
+
+type ExecutorAction = {
+  action_type: string;
+  [key: string]: any;
+};
 
 export interface UnifiedLogEntry {
   id: string;

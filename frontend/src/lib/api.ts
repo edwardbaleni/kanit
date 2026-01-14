@@ -754,11 +754,11 @@ export const configApi = {
     );
     return handleApiResponse<CheckEditorAvailabilityResponse>(response);
   },
-  // STUB: Execution disabled - agents always return NotAvailable
+  // STUB: Execution disabled - agents always return not_available
   checkAgentAvailability: async (
     _agent: BaseCodingAgent
   ): Promise<AvailabilityInfo> => {
-    return 'NotAvailable';
+    return { status: 'not_available', reason: 'Execution disabled' };
   },
 };
 
@@ -801,7 +801,7 @@ export const mcpServersApi = {
   load: async (_query: McpServerQuery): Promise<GetMcpServerResponse> => {
     // Return empty MCP config - execution disabled
     return {
-      mcp_config: { servers: {} },
+      mcp_config: { servers: {}, servers_path: null },
       config_path: '',
     };
   },

@@ -18,7 +18,7 @@ import {
 import { Loader2 } from 'lucide-react';
 import { TaskWithAttemptStatus } from 'shared/types';
 import type { WorkspaceWithSession } from '@/types/attempt';
-import { ApprovalFormProvider } from '@/contexts/ApprovalFormContext';
+// REMOVED: Execution disabled - ApprovalFormProvider removed (no approval UI needed)
 
 interface VirtualizedListProps {
   attempt: WorkspaceWithSession;
@@ -60,7 +60,7 @@ const ItemContent: VirtuosoMessageListProps<
     return (
       <DisplayConversationEntry
         expansionKey={data.patchKey}
-        entry={data.content}
+        entry={data.content as any} // REMOVED: Execution disabled - type cast for compatibility
         executionProcessId={data.executionProcessId}
         taskAttempt={attempt}
         task={task}
@@ -116,7 +116,8 @@ const VirtualizedList = ({ attempt, task }: VirtualizedListProps) => {
   );
 
   return (
-    <ApprovalFormProvider>
+    <>
+      {/* REMOVED: Execution disabled - ApprovalFormProvider wrapper removed */}
       <VirtuosoMessageListLicense
         licenseKey={import.meta.env.VITE_PUBLIC_REACT_VIRTUOSO_LICENSE_KEY}
       >
@@ -138,7 +139,7 @@ const VirtualizedList = ({ attempt, task }: VirtualizedListProps) => {
           <p>Loading History</p>
         </div>
       )}
-    </ApprovalFormProvider>
+    </>
   );
 };
 

@@ -11,12 +11,11 @@ import { useAuth } from '@/hooks';
 import { usePreviousPath } from '@/hooks/usePreviousPath';
 
 import {
-  AgentSettings,
   GeneralSettings,
-  McpSettings,
   OrganizationSettings,
   ProjectSettings,
   SettingsLayout,
+  // REMOVED: Execution disabled - AgentSettings and McpSettings removed
 } from '@/pages/settings/';
 import { UserSystemProvider, useUserSystem } from '@/components/ConfigProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
@@ -75,13 +74,13 @@ function AppContent() {
         return;
       }
 
-      // 2) Onboarding - configure executor and editor
+      // 2) Onboarding - configure editor
       if (!config.onboarding_acknowledged) {
         const result = await OnboardingDialog.show();
         if (!cancelled) {
           await updateAndSaveConfig({
             onboarding_acknowledged: true,
-            executor_profile: result.profile,
+            // REMOVED: Execution disabled - executor_profile no longer set
             editor: result.editor,
           });
         }
@@ -143,12 +142,19 @@ function AppContent() {
                     path="organizations"
                     element={<OrganizationSettings />}
                   />
-                  <Route path="agents" element={<AgentSettings />} />
-                  <Route path="mcp" element={<McpSettings />} />
+                  {/* REMOVED: Execution disabled - agent and MCP settings removed */}
+                  <Route
+                    path="agents"
+                    element={<Navigate to="/settings/general" replace />}
+                  />
+                  <Route
+                    path="mcp"
+                    element={<Navigate to="/settings/general" replace />}
+                  />
                 </Route>
                 <Route
                   path="/mcp-servers"
-                  element={<Navigate to="/settings/mcp" replace />}
+                  element={<Navigate to="/settings/general" replace />}
                 />
                 <Route
                   path="/projects/:projectId/tasks/:taskId"

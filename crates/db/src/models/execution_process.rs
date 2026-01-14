@@ -17,7 +17,9 @@ use super::{
 };
 
 // Stub type for historical ExecutorAction data stored as JSON
-pub type ExecutorAction = serde_json::Value;
+#[derive(Debug, Clone, Serialize, Deserialize, TS)]
+#[serde(transparent)]
+pub struct ExecutorAction(pub serde_json::Value);
 
 #[derive(Debug, Error)]
 pub enum ExecutionProcessError {
