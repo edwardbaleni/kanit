@@ -568,10 +568,9 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
                 selector={(state) => ({
                   canSubmit: state.canSubmit,
                   isSubmitting: state.isSubmitting,
-                  values: state.values,
                 })}
               >
-                {({ canSubmit, isSubmitting, values }) => {
+                {({ canSubmit, isSubmitting }) => {
                   const buttonText = editMode
                     ? isSubmitting
                       ? t('taskFormDialog.updating')
