@@ -18,7 +18,7 @@ import {
   ScriptPlaceholderContext,
 } from '@/utils/scriptPlaceholders';
 import { useUserSystem } from '@/components/ConfigProvider';
-import { useTaskMutations } from '@/hooks/useTaskMutations';
+// REMOVED: Execution disabled - useTaskMutations removed
 import { useProjectMutations } from '@/hooks/useProjectMutations';
 import { useProjectRepos } from '@/hooks';
 import {
@@ -117,28 +117,7 @@ export function NoServerContent({
     setSaveError(null);
   };
 
-  const handleInstallCompanion = () => {
-    if (!project || !config || projectRepos.length === 0) return;
-
-    const repos = projectRepos.map((repo) => ({
-      repo_id: repo.id,
-      target_branch: 'main',
-    }));
-
-    createAndStart.mutate({
-      task: {
-        project_id: project.id,
-        title: COMPANION_INSTALL_TASK_TITLE,
-        description: COMPANION_INSTALL_TASK_DESCRIPTION,
-        status: null,
-        parent_workspace_id: null,
-        image_ids: null,
-        shared_task_id: null,
-      },
-      executor_profile_id: config.executor_profile,
-      repos,
-    });
-  };
+  // REMOVED: Execution disabled - handleInstallCompanion function removed (used createAndStart)
 
   return (
     <div className="flex-1 flex items-center justify-center">
@@ -273,17 +252,7 @@ export function NoServerContent({
               {t('preview.noServer.companionPrompt')}
             </p>
             <div className="space-y-2">
-              <Button
-                size="sm"
-                onClick={handleInstallCompanion}
-                disabled={!project || !config || createAndStart.isPending}
-                className="gap-1"
-                variant="outline"
-              >
-                {createAndStart.isPending
-                  ? 'Creating task…'
-                  : 'Install companion automatically'}
-              </Button>
+              {/* REMOVED: Execution disabled - automatic install button removed */}
               <div>
                 <a
                   href="https://github.com/BloopAI/vibe-kanban-web-companion"

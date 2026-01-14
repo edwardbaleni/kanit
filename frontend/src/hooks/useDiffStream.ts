@@ -1,9 +1,10 @@
 import { useCallback, useMemo } from 'react';
-import type { Diff, PatchType } from 'shared/types';
+import type { Diff } from 'shared/types';
 import { useJsonPatchWsStream } from './useJsonPatchWsStream';
 
+// REMOVED: Execution disabled - PatchType removed, using any for compatibility
 interface DiffEntries {
-  [filePath: string]: PatchType;
+  [filePath: string]: any;
 }
 
 type DiffStreamEvent = {
