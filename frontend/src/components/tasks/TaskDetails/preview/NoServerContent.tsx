@@ -49,7 +49,7 @@ export function NoServerContent({
   const [isEditingExistingScript, setIsEditingExistingScript] = useState(false);
   const { system, config } = useUserSystem();
 
-  const { createAndStart } = useTaskMutations(project?.id);
+  // REMOVED: Execution disabled - createAndStart removed
   const { updateProject } = useProjectMutations();
 
   const { data: projectRepos = [] } = useProjectRepos(project?.id);

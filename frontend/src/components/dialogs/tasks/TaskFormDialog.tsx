@@ -16,7 +16,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
+// REMOVED: Execution disabled - Switch import removed (autoStart removed)
 import {
   Select,
   SelectContent,
@@ -47,9 +47,9 @@ import { useHotkeysContext } from 'react-hotkeys-hook';
 import { cn } from '@/lib/utils';
 import type {
   TaskStatus,
-  ExecutorProfileId,
   ImageResponse,
 } from 'shared/types';
+// REMOVED: Execution disabled - ExecutorProfileId type removed
 
 interface Task {
   id: string;
@@ -89,7 +89,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
   const { t } = useTranslation(['tasks', 'common']);
   // REMOVED: Execution disabled - createAndStart removed
   const { createTask, updateTask } = useTaskMutations(projectId);
-  const { system, profiles, loading: userSystemLoading } = useUserSystem();
+  const { loading: userSystemLoading } = useUserSystem();
   const { upload, uploadForTask } = useImageUpload();
   const { enableScope, disableScope } = useHotkeysContext();
 
@@ -577,9 +577,7 @@ const TaskFormDialogImpl = NiceModal.create<TaskFormDialogProps>((props) => {
                       ? t('taskFormDialog.updating')
                       : t('taskFormDialog.updateTask')
                     : isSubmitting
-                      ? values.autoStart
-                        ? t('taskFormDialog.starting')
-                        : t('taskFormDialog.creating')
+                      ? t('taskFormDialog.creating')
                       : t('taskFormDialog.create');
 
                   return (

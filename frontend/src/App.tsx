@@ -75,13 +75,13 @@ function AppContent() {
         return;
       }
 
-      // 2) Onboarding - configure executor and editor
+      // 2) Onboarding - configure editor
       if (!config.onboarding_acknowledged) {
         const result = await OnboardingDialog.show();
         if (!cancelled) {
           await updateAndSaveConfig({
             onboarding_acknowledged: true,
-            executor_profile: result.profile,
+            // REMOVED: Execution disabled - executor_profile no longer set
             editor: result.editor,
           });
         }
