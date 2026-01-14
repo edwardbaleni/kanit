@@ -1,10 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import WYSIWYGEditor from '@/components/ui/wysiwyg';
 import {
-  ActionType,
-  NormalizedEntry,
-  ToolStatus,
-  type NormalizedEntryType,
   type TaskWithAttemptStatus,
   type JsonValue,
 } from 'shared/types.ts';
@@ -30,10 +26,48 @@ import {
 } from 'lucide-react';
 import RawLogText from '../common/RawLogText';
 import UserMessage from './UserMessage';
-import PendingApprovalEntry from './PendingApprovalEntry';
-import { NextActionCard } from './NextActionCard';
+// REMOVED: Execution disabled - PendingApprovalEntry, NextActionCard, RetryUiContext removed
 import { cn } from '@/lib/utils';
-import { useRetryUi } from '@/contexts/RetryUiContext';
+
+// REMOVED: Execution disabled - stub types for removed execution types
+type ToolStatus =
+  | { status: 'success' }
+  | { status: 'error' }
+  | { status: 'pending' }
+  | { status: 'pending_approval' }
+  | { status: 'denied' }
+  | { status: 'timed_out' };
+
+type ActionType = {
+  action: string;
+  path?: string;
+  changes?: any[];
+  [key: string]: any;
+};
+
+type NormalizedEntryType =
+  | { type: 'user_message'; [key: string]: any }
+  | { type: 'user_feedback'; denied_tool?: string; [key: string]: any }
+  | {
+      type: 'tool_use';
+      status: ToolStatus;
+      action_type: ActionType;
+      [key: string]: any;
+    }
+  | { type: 'tool_result'; [key: string]: any }
+  | { type: 'text'; [key: string]: any }
+  | { type: 'thinking'; [key: string]: any }
+  | { type: 'error_message'; [key: string]: any }
+  | { type: 'system_message'; [key: string]: any }
+  | { type: 'assistant_message'; [key: string]: any }
+  | { type: 'loading'; [key: string]: any }
+  | { type: 'next_action'; [key: string]: any };
+
+type NormalizedEntry = {
+  entry_type: NormalizedEntryType;
+  content: string;
+  timestamp: string | null;
+};
 
 type Props = {
   entry: NormalizedEntry | ProcessStartPayload;
@@ -44,7 +78,11 @@ type Props = {
   task?: TaskWithAttemptStatus;
 };
 
-type FileEditAction = Extract<ActionType, { action: 'file_edit' }>;
+type FileEditAction = ActionType & {
+  action: 'file_edit';
+  path: string;
+  changes: any[];
+};
 
 const renderJson = (v: JsonValue) => (
   <pre className="whitespace-pre-wrap">{JSON.stringify(v, null, 2)}</pre>
@@ -621,7 +659,7 @@ function DisplayConversationEntry({
   expansionKey,
   executionProcessId,
   taskAttempt,
-  task,
+  task: _task, // Unused but kept for API compatibility
 }: Props) {
   const { t } = useTranslation('common');
   const isNormalizedEntry = (
@@ -632,8 +670,8 @@ function DisplayConversationEntry({
     entry: NormalizedEntry | ProcessStartPayload
   ): entry is ProcessStartPayload => 'processId' in entry;
 
-  const { isProcessGreyed } = useRetryUi();
-  const greyed = isProcessGreyed(executionProcessId);
+  // REMOVED: Execution disabled - useRetryUi removed, never greyed
+  const greyed = false;
 
   if (isProcessStart(entry)) {
     return (
@@ -711,7 +749,7 @@ function DisplayConversationEntry({
         const fileEditAction = toolEntry.action_type as FileEditAction;
         return (
           <div className="space-y-3">
-            {fileEditAction.changes.map((change, idx) => (
+            {(fileEditAction.changes || []).map((change: any, idx: number) => (
               <FileChangeRenderer
                 key={idx}
                 path={fileEditAction.path}
@@ -756,15 +794,9 @@ function DisplayConversationEntry({
       </div>
     );
 
+    // REMOVED: Execution disabled - PendingApprovalEntry removed
     if (isPendingApprovalStatus(status)) {
-      return (
-        <PendingApprovalEntry
-          pendingStatus={status}
-          executionProcessId={executionProcessId}
-        >
-          {content}
-        </PendingApprovalEntry>
-      );
+      return content; // Show content directly without approval UI
     }
 
     return content;
@@ -799,19 +831,9 @@ function DisplayConversationEntry({
     );
   }
 
+  // REMOVED: Execution disabled - NextActionCard removed
   if (entry.entry_type.type === 'next_action') {
-    return (
-      <div className="px-4 py-2 text-sm">
-        <NextActionCard
-          attemptId={taskAttempt?.id}
-          containerRef={taskAttempt?.container_ref}
-          failed={entry.entry_type.failed}
-          execution_processes={entry.entry_type.execution_processes}
-          task={task}
-          needsSetup={entry.entry_type.needs_setup}
-        />
-      </div>
-    );
+    return null; // Skip next action entries
   }
 
   return (

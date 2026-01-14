@@ -60,7 +60,7 @@ const ItemContent: VirtuosoMessageListProps<
     return (
       <DisplayConversationEntry
         expansionKey={data.patchKey}
-        entry={data.content}
+        entry={data.content as any} // REMOVED: Execution disabled - type cast for compatibility
         executionProcessId={data.executionProcessId}
         taskAttempt={attempt}
         task={task}

@@ -1,75 +1,26 @@
 // VS Code webview integration - install keyboard/clipboard bridge
 import '@/vscode/bridge';
 
-import { useParams } from 'react-router-dom';
 import { AppWithStyleOverride } from '@/utils/StyleOverride';
 import { WebviewContextMenu } from '@/vscode/ContextMenu';
-import TaskAttemptPanel from '@/components/panels/TaskAttemptPanel';
-import { useTaskAttemptWithSession } from '@/hooks/useTaskAttempt';
-import { useProjectTasks } from '@/hooks/useProjectTasks';
-import { ExecutionProcessesProvider } from '@/contexts/ExecutionProcessesContext';
-import { ReviewProvider } from '@/contexts/ReviewProvider';
-import { ClickedElementsProvider } from '@/contexts/ClickedElementsProvider';
+// REMOVED: Execution disabled - TaskAttemptPanel and ExecutionProcessesProvider removed
 
 export function FullAttemptLogsPage() {
-  const {
-    projectId = '',
-    taskId = '',
-    attemptId = '',
-  } = useParams<{
-    projectId: string;
-    taskId: string;
-    attemptId: string;
-  }>();
-
-  const { data: attempt } = useTaskAttemptWithSession(attemptId);
-  const { tasksById } = useProjectTasks(projectId);
-  const task = taskId ? (tasksById[taskId] ?? null) : null;
-
+  // REMOVED: Execution disabled - attempt logs view simplified
   return (
     <AppWithStyleOverride>
       <div className="h-screen flex flex-col bg-muted">
         <WebviewContextMenu />
-
-        <main className="flex-1 min-h-0">
-          {attempt ? (
-            <ClickedElementsProvider attempt={attempt}>
-              <ReviewProvider key={attempt.id}>
-                <ExecutionProcessesProvider
-                  key={attempt.id}
-                  attemptId={attempt.id}
-                >
-                  <TaskAttemptPanel attempt={attempt} task={task}>
-                    {({ logs, followUp }) => (
-                      <div className="h-full min-h-0 flex flex-col">
-                        <div className="flex-1 min-h-0 flex flex-col">
-                          {logs}
-                        </div>
-                        <div className="min-h-0 max-h-[50%] border-t overflow-hidden">
-                          <div className="mx-auto w-full max-w-[50rem] h-full min-h-0">
-                            {followUp}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </TaskAttemptPanel>
-                </ExecutionProcessesProvider>
-              </ReviewProvider>
-            </ClickedElementsProvider>
-          ) : (
-            <TaskAttemptPanel attempt={attempt} task={task}>
-              {({ logs, followUp }) => (
-                <div className="h-full min-h-0 flex flex-col">
-                  <div className="flex-1 min-h-0 flex flex-col">{logs}</div>
-                  <div className="min-h-0 max-h-[50%] border-t overflow-hidden">
-                    <div className="mx-auto w-full max-w-[50rem] h-full min-h-0">
-                      {followUp}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </TaskAttemptPanel>
-          )}
+        <main className="flex-1 min-h-0 flex items-center justify-center">
+          <div className="text-center space-y-4 p-6">
+            <h2 className="text-xl font-semibold text-foreground">
+              Execution Logs Unavailable
+            </h2>
+            <p className="text-sm text-muted-foreground max-w-md">
+              Code execution has been disabled. This view previously showed
+              execution logs and follow-up interactions.
+            </p>
+          </div>
         </main>
       </div>
     </AppWithStyleOverride>

@@ -20,11 +20,7 @@ import {
 import { useUserSystem } from '@/components/ConfigProvider';
 // REMOVED: Execution disabled - useTaskMutations removed
 import { useProjectMutations } from '@/hooks/useProjectMutations';
-import { useProjectRepos } from '@/hooks';
-import {
-  COMPANION_INSTALL_TASK_TITLE,
-  COMPANION_INSTALL_TASK_DESCRIPTION,
-} from '@/utils/companionInstallTask';
+// REMOVED: Execution disabled - companion install task constants removed
 
 interface NoServerContentProps {
   projectHasDevScript: boolean;
@@ -47,12 +43,10 @@ export function NoServerContent({
   const [devScriptInput, setDevScriptInput] = useState('');
   const [saveError, setSaveError] = useState<string | null>(null);
   const [isEditingExistingScript, setIsEditingExistingScript] = useState(false);
-  const { system, config } = useUserSystem();
+  const { system } = useUserSystem();
 
   // REMOVED: Execution disabled - createAndStart removed
   const { updateProject } = useProjectMutations();
-
-  const { data: projectRepos = [] } = useProjectRepos(project?.id);
 
   // Create strategy-based placeholders
   const placeholders = system.environment

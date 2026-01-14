@@ -86,6 +86,8 @@ export enum ExecutionProcessStatus { running = "running", completed = "completed
 
 export type ExecutionProcessRunReason = "setupscript" | "cleanupscript" | "codingagent" | "devserver";
 
+export type ExecutorAction = JsonValue;
+
 export type ExecutionProcessRepoState = { id: string, execution_process_id: string, repo_id: string, before_head_commit: string | null, after_head_commit: string | null, merge_commit: string | null, created_at: Date, updated_at: Date, };
 
 export type Merge = { "type": "direct" } & DirectMerge | { "type": "pr" } & PrMerge;

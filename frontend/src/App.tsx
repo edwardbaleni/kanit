@@ -11,12 +11,11 @@ import { useAuth } from '@/hooks';
 import { usePreviousPath } from '@/hooks/usePreviousPath';
 
 import {
-  AgentSettings,
   GeneralSettings,
-  McpSettings,
   OrganizationSettings,
   ProjectSettings,
   SettingsLayout,
+  // REMOVED: Execution disabled - AgentSettings and McpSettings removed
 } from '@/pages/settings/';
 import { UserSystemProvider, useUserSystem } from '@/components/ConfigProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
@@ -143,12 +142,19 @@ function AppContent() {
                     path="organizations"
                     element={<OrganizationSettings />}
                   />
-                  <Route path="agents" element={<AgentSettings />} />
-                  <Route path="mcp" element={<McpSettings />} />
+                  {/* REMOVED: Execution disabled - agent and MCP settings removed */}
+                  <Route
+                    path="agents"
+                    element={<Navigate to="/settings/general" replace />}
+                  />
+                  <Route
+                    path="mcp"
+                    element={<Navigate to="/settings/general" replace />}
+                  />
                 </Route>
                 <Route
                   path="/mcp-servers"
-                  element={<Navigate to="/settings/mcp" replace />}
+                  element={<Navigate to="/settings/general" replace />}
                 />
                 <Route
                   path="/projects/:projectId/tasks/:taskId"

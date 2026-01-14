@@ -18,9 +18,9 @@ import { useProject } from '@/contexts/ProjectContext';
 import { useTaskAttempts } from '@/hooks/useTaskAttempts';
 import { useTaskAttemptWithSession } from '@/hooks/useTaskAttempt';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { useBranchStatus, useAttemptExecution } from '@/hooks';
+import { useBranchStatus } from '@/hooks';
 import { paths } from '@/lib/paths';
-import { ExecutionProcessesProvider } from '@/contexts/ExecutionProcessesContext';
+// REMOVED: Execution disabled - useAttemptExecution and ExecutionProcessesProvider removed
 import { ClickedElementsProvider } from '@/contexts/ClickedElementsProvider';
 import { ReviewProvider } from '@/contexts/ReviewProvider';
 import {
@@ -52,12 +52,11 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useHotkeysContext } from 'react-hotkeys-hook';
 import { TasksLayout, type LayoutMode } from '@/components/layout/TasksLayout';
-import { PreviewPanel } from '@/components/panels/PreviewPanel';
+// REMOVED: Execution disabled - PreviewPanel and TaskAttemptPanel removed
 import { DiffsPanel } from '@/components/panels/DiffsPanel';
-import TaskAttemptPanel from '@/components/panels/TaskAttemptPanel';
 import TaskPanel from '@/components/panels/TaskPanel';
 import SharedTaskPanel from '@/components/panels/SharedTaskPanel';
-import TodoPanel from '@/components/tasks/TodoPanel';
+// REMOVED: Execution disabled - TodoPanel removed from this file
 import { useAuth } from '@/hooks';
 import { NewCard, NewCardHeader } from '@/components/ui/new-card';
 import {
@@ -109,7 +108,8 @@ function DiffsPanelContainer({
   branchStatus: RepoBranchStatus[] | null;
   branchStatusError?: Error | null;
 }) {
-  const { isAttemptRunning } = useAttemptExecution(attempt?.id);
+  // REMOVED: Execution disabled - always false
+  const isAttemptRunning = false;
 
   return (
     <DiffsPanel
@@ -966,28 +966,20 @@ export function ProjectTasks() {
       {isTaskView ? (
         <TaskPanel task={selectedTask} />
       ) : (
-        <TaskAttemptPanel attempt={attempt} task={selectedTask}>
-          {({ logs, followUp }) => (
-            <>
-              <GitErrorBanner />
-              <div className="flex-1 min-h-0 flex flex-col">
-                <div className="flex-1 min-h-0 flex flex-col">{logs}</div>
-
-                <div className="shrink-0 border-t">
-                  <div className="mx-auto w-full max-w-[50rem]">
-                    <TodoPanel />
-                  </div>
-                </div>
-
-                <div className="min-h-0 max-h-[50%] border-t overflow-hidden bg-background">
-                  <div className="mx-auto w-full max-w-[50rem] h-full min-h-0">
-                    {followUp}
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-        </TaskAttemptPanel>
+        // REMOVED: Execution disabled - TaskAttemptPanel removed, simplified view
+        <>
+          <GitErrorBanner />
+          <div className="flex-1 min-h-0 flex flex-col p-6">
+            <div className="text-center space-y-4">
+              <h3 className="text-lg font-semibold text-foreground">
+                Execution View Unavailable
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Code execution has been disabled. Use the diffs view to see changes.
+              </p>
+            </div>
+          </div>
+        </>
       )}
     </NewCard>
   ) : selectedSharedTask ? (
@@ -999,7 +991,14 @@ export function ProjectTasks() {
   const auxContent =
     selectedTask && attempt ? (
       <div className="relative h-full w-full">
-        {mode === 'preview' && <PreviewPanel />}
+        {/* REMOVED: Execution disabled - PreviewPanel removed */}
+        {mode === 'preview' && (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-sm text-muted-foreground">
+              Preview unavailable - execution disabled
+            </p>
+          </div>
+        )}
         {mode === 'diffs' && (
           <DiffsPanelContainer
             attempt={attempt}
@@ -1019,17 +1018,16 @@ export function ProjectTasks() {
     <GitOperationsProvider attemptId={attempt?.id}>
       <ClickedElementsProvider attempt={attempt}>
         <ReviewProvider attemptId={attempt?.id}>
-          <ExecutionProcessesProvider attemptId={attempt?.id}>
-            <TasksLayout
-              kanban={kanbanContent}
-              attempt={attemptContent}
-              aux={auxContent}
-              isPanelOpen={isPanelOpen}
-              mode={effectiveMode}
-              isMobile={isMobile}
-              rightHeader={rightHeader}
-            />
-          </ExecutionProcessesProvider>
+          {/* REMOVED: Execution disabled - ExecutionProcessesProvider removed */}
+          <TasksLayout
+            kanban={kanbanContent}
+            attempt={attemptContent}
+            aux={auxContent}
+            isPanelOpen={isPanelOpen}
+            mode={effectiveMode}
+            isMobile={isMobile}
+            rightHeader={rightHeader}
+          />
         </ReviewProvider>
       </ClickedElementsProvider>
     </GitOperationsProvider>
