@@ -1,4 +1,11 @@
-import { type FileChange } from 'shared/types';
+// REMOVED: Execution disabled - FileChange type removed, using stub
+// Stub type for file changes (still used for git diffs, not execution)
+type FileChange =
+  | { action: 'write'; content: string }
+  | { action: 'delete' }
+  | { action: 'rename'; new_path: string }
+  | { action: 'edit'; unified_diff: string; has_line_numbers: boolean };
+
 import { useUserSystem } from '@/components/ConfigProvider';
 import { Trash2, FilePlus2, ArrowRight, FileX, FileClock } from 'lucide-react';
 import { getHighLightLanguageFromPath } from '@/utils/extToLanguage';
