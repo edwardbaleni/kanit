@@ -21,17 +21,31 @@ import { TaskWithAttemptStatus, Workspace } from 'shared/types';
 import { Loader2 } from 'lucide-react';
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { useAuth, useRepoBranches } from '@/hooks';
-import {
-  GhCliHelpInstructions,
-  GhCliSetupDialog,
-  mapGhCliErrorToUi,
-} from '@/components/dialogs/auth/GhCliSetupDialog';
-import type {
-  GhCliSupportContent,
-  GhCliSupportVariant,
-} from '@/components/dialogs/auth/GhCliSetupDialog';
-import type { GhCliSetupError } from 'shared/types';
+// REMOVED: Execution disabled - GhCliSetupDialog removed, using stub types
+// GitHub CLI setup still needed for PR creation, but simplified without execution dialog
 import { useUserSystem } from '@/components/ConfigProvider';
+
+// Stub types for GH CLI support (still needed for PR creation)
+type GhCliSupportVariant = 'homebrew' | 'manual';
+type GhCliSupportContent = {
+  variant: GhCliSupportVariant | null;
+  message: string;
+};
+
+// Stub helper functions - simplified without execution
+const mapGhCliErrorToUi = (
+  _error: string,
+  fallbackMessage: string,
+  _t: any
+): GhCliSupportContent => {
+  return {
+    variant: null,
+    message: fallbackMessage,
+  };
+};
+
+const GhCliHelpInstructions = (_props: { variant: GhCliSupportVariant; t: any }) => null;
+
 import { defineModal } from '@/lib/modals';
 
 interface CreatePRDialogProps {
@@ -110,29 +124,7 @@ const CreatePRDialogImpl = NiceModal.create<CreatePRDialogProps>(
       setGhCliHelp(null);
       setCreatingPR(true);
 
-      const handleGhCliSetupOutcome = (
-        setupResult: GhCliSetupError | null,
-        fallbackMessage: string
-      ) => {
-        if (setupResult === null) {
-          setError(null);
-          setGhCliHelp(null);
-          setCreatingPR(false);
-          modal.hide();
-          return;
-        }
-
-        const ui = mapGhCliErrorToUi(setupResult, fallbackMessage, t);
-
-        if (ui.variant) {
-          setGhCliHelp(ui);
-          setError(null);
-          return;
-        }
-
-        setGhCliHelp(null);
-        setError(ui.message);
-      };
+      // REMOVED: Execution disabled - handleGhCliSetupOutcome removed (no setup dialog)
 
       const result = await attemptsApi.createPR(attempt.id, {
         title: prTitle,
@@ -161,30 +153,22 @@ const CreatePRDialogImpl = NiceModal.create<CreatePRDialogProps>(
       const defaultGhCliErrorMessage =
         result.message || 'Failed to run GitHub CLI setup.';
 
-      const showGhCliSetupDialog = async () => {
-        const setupResult = await GhCliSetupDialog.show({
-          attemptId: attempt.id,
-        });
-
-        handleGhCliSetupOutcome(setupResult, defaultGhCliErrorMessage);
-      };
+      // REMOVED: Execution disabled - GhCliSetupDialog removed
+      // Now just show error message instead of launching setup dialog
 
       if (result.error) {
         if (
           result.error.type === 'github_cli_not_installed' ||
           result.error.type === 'github_cli_not_logged_in'
         ) {
-          if (isMacEnvironment) {
-            await showGhCliSetupDialog();
-          } else {
-            const ui = mapGhCliErrorToUi(
-              'SETUP_HELPER_NOT_SUPPORTED',
-              defaultGhCliErrorMessage,
-              t
-            );
-            setGhCliHelp(ui.variant ? ui : null);
-            setError(ui.variant ? null : ui.message);
-          }
+          // Show error message - setup dialog no longer available
+          const ui = mapGhCliErrorToUi(
+            result.error.type,
+            defaultGhCliErrorMessage,
+            t
+          );
+          setGhCliHelp(ui.variant ? ui : null);
+          setError(ui.variant ? null : ui.message);
           return;
         } else if (
           result.error.type === 'git_cli_not_installed' ||
